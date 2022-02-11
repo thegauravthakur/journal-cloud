@@ -2,7 +2,13 @@ module.exports = {
     root: true,
     extends: ['airbnb-base', 'prettier'],
     parser: '@typescript-eslint/parser',
-    plugins: ['@typescript-eslint', 'import', 'simple-import-sort', 'prettier'],
+    plugins: [
+        '@typescript-eslint',
+        'import',
+        'simple-import-sort',
+        'prettier',
+        'react-hooks',
+    ],
     overrides: [
         {
             files: ['*.ts', '*.tsx'],
@@ -18,6 +24,8 @@ module.exports = {
         ecmaVersion: 2020,
     },
     rules: {
+        'react-hooks/rules-of-hooks': 'error',
+        'react-hooks/exhaustive-deps': 'error',
         'prettier/prettier': 'error',
         'import/no-commonjs': 'off',
         'no-use-before-define': 'off',

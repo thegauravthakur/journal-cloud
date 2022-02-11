@@ -40,7 +40,7 @@ export function TextInputField({ setEvents }: TextInputFieldProps) {
                     borderWidth: 1,
                     borderRadius: 8,
                     paddingHorizontal: 6,
-                    paddingVertical: 10,
+                    paddingVertical: 6,
                 }}
             >
                 {(isTitleFocused || isDescriptionFocused) && (

@@ -1,4 +1,4 @@
-import { Theme, useTheme } from '@react-navigation/native';
+import { Theme, useNavigation, useTheme } from '@react-navigation/native';
 import TimeAgo from 'javascript-time-ago';
 import { Dispatch, SetStateAction } from 'react';
 import * as React from 'react';
@@ -14,6 +14,7 @@ interface EventItemProps {
     setEvents: Dispatch<SetStateAction<Response>>;
     createdAt: number;
     isLastItem: boolean;
+    id: string;
 }
 
 export function EventItem({
@@ -21,10 +22,19 @@ export function EventItem({
     title,
     createdAt,
     isLastItem,
+    id,
 }: EventItemProps) {
     const theme = useTheme() as Theme & { colors: CustomTheme };
     const timeAgo = new TimeAgo('en-in');
-    const onEventItemClick = async () => {};
+    const navigation = useNavigation<any>();
+    const onEventItemClick = async () => {
+        navigation.navigate('Advanced Event', {
+            description,
+            title,
+            createdAt,
+            id,
+        });
+    };
 
     return (
         <EventItemWrapper

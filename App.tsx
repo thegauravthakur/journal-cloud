@@ -5,6 +5,7 @@ import en from 'javascript-time-ago/locale/en.json';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
+import { AdvancedEvent } from './src/views/AdvancedEvent';
 import { Timeline } from './src/views/Timeline';
 
 export interface CustomTheme {
@@ -34,6 +35,13 @@ export function App() {
                     <Stack.Screen
                         name={'Indexing Life'}
                         component={Timeline}
+                        options={{
+                            headerTitleAlign: 'center',
+                        }}
+                    />
+                    <Stack.Screen
+                        name={'Advanced Event'}
+                        component={AdvancedEvent}
                         options={{
                             headerTitleAlign: 'center',
                         }}

@@ -41,6 +41,7 @@ export function Events({ events, setEvents }: EventsProps) {
                         title={events[id].title as string}
                         description={events[id].description as string}
                         setEvents={setEvents}
+                        id={id}
                         createdAt={events[id].createdAt as number}
                     />
                 ))
