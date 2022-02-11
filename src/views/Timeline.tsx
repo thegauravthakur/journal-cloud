@@ -1,48 +1,33 @@
+import { format } from 'date-fns';
 import * as React from 'react';
-import { useRef, useState } from 'react';
-import { ScrollView, TextInput, View } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, Text } from 'react-native';
 
-import { EventItemWrapper } from './components/EventItemWrapper';
-import { Events } from './components/Events';
+import { Events } from '../components/Events';
+import { TextInputField } from '../components/TextInputField';
+
+export type Response = Record<string, Record<string, string | number>>;
 
 export function Timeline() {
-    const [isTitleFocused, setTitleFocus] = useState(false);
-    const [isDescriptionFocused, setDescriptionFocus] = useState(false);
-    const titleRef = useRef<any>();
-    const descriptionRef = useRef<any>();
+    const [events, setEvents] = useState<Response>({});
+
     return (
-        <ScrollView keyboardShouldPersistTaps={'never'}>
-            <EventItemWrapper
-                onClick={() => {
-                    console.log(titleRef.current);
+        <ScrollView
+            style={{ marginLeft: 4, marginRight: 6 }}
+            keyboardShouldPersistTaps={'handled'}
+        >
+            <Text
+                style={{
+                    fontWeight: 'bold',
+                    fontSize: 30,
+                    marginHorizontal: 10,
+                    marginVertical: 20,
                 }}
             >
-                <View style={{ borderWidth: 1 }}>
-                    {(isTitleFocused || isDescriptionFocused) && (
-                        <TextInput
-                            ref={titleRef}
-                            onFocus={() => {
-                                setTitleFocus(true);
-                            }}
-                            onBlur={() => setTitleFocus(false)}
-                            placeholder={'title'}
-                            multiline={true}
-                            style={{ borderWidth: 1, paddingVertical: 0 }}
-                        />
-                    )}
-                    <TextInput
-                        ref={descriptionRef}
-                        onFocus={() => setDescriptionFocus(true)}
-                        onBlur={() => {
-                            setTimeout(() => setDescriptionFocus(false), 10);
-                        }}
-                        placeholder='description'
-                        multiline={true}
-                        style={{ borderWidth: 1, paddingVertical: 0 }}
-                    />
-                </View>
-            </EventItemWrapper>
-            <Events />
+                {format(new Date(), 'EEEE do, yyyy')}
+            </Text>
+            <TextInputField setEvents={setEvents} />
+            <Events events={events} setEvents={setEvents} />
         </ScrollView>
     );
 }

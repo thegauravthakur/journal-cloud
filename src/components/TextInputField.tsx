@@ -1,0 +1,73 @@
+﻿import firestore from '@react-native-firebase/firestore';
+import * as React from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { TextInput, View } from 'react-native';
+
+import { Response } from '../views/Timeline';
+import { EventItemWrapper } from './EventItemWrapper';
+
+interface TextInputFieldProps {
+    setEvents: Dispatch<SetStateAction<Response>>;
+}
+export function TextInputField({ setEvents }: TextInputFieldProps) {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [isTitleFocused, setTitleFocus] = useState(false);
+    const [isDescriptionFocused, setDescriptionFocus] = useState(false);
+
+    const onEventSubmit = async () => {
+        if (title || description) {
+            const date = Date.now();
+            const value = { title, description, createdAt: Date.now() };
+
+            setEvents((events) => {
+                const copy = { ...events };
+                copy[date.toString()] = value;
+                return copy;
+            });
+
+            await firestore()
+                .collection('user')
+                .doc('10-02-2022')
+                .update({ [date]: value });
+        }
+    };
+
+    return (
+        <EventItemWrapper onClick={onEventSubmit}>
+            <View
+                style={{
+                    borderWidth: 1,
+                    borderRadius: 8,
+                    paddingHorizontal: 6,
+                    paddingVertical: 4,
+                }}
+            >
+                {(isTitleFocused || isDescriptionFocused) && (
+                    <TextInput
+                        onBlur={() =>
+                            setTimeout(() => setTitleFocus(false), 10)
+                        }
+                        onFocus={() => {
+                            setTitleFocus(true);
+                        }}
+                        onChangeText={(text) => setTitle(text)}
+                        placeholder={'title'}
+                        multiline={true}
+                        style={{ paddingVertical: 0 }}
+                    />
+                )}
+                <TextInput
+                    onFocus={() => setDescriptionFocus(true)}
+                    onBlur={() => {
+                        setTimeout(() => setDescriptionFocus(false), 10);
+                    }}
+                    placeholder='description'
+                    multiline={true}
+                    onChangeText={(text) => setDescription(text)}
+                    style={{ paddingVertical: 0 }}
+                />
+            </View>
+        </EventItemWrapper>
+    );
+}
