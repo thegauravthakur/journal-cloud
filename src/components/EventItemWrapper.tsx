@@ -8,20 +8,22 @@ interface EventItemWrapperProps {
     onClick: () => void;
     children: ReactNode;
     showBorderLine?: boolean;
+    iconName: string;
 }
 
 export function EventItemWrapper({
     children,
     onClick,
     showBorderLine = true,
+    iconName,
 }: EventItemWrapperProps) {
     return (
         <View
             style={{
                 borderLeftWidth: 2,
                 borderLeftColor: showBorderLine ? '#718096' : 'transparent',
-                marginLeft: 15,
-                paddingLeft: 20,
+                marginLeft: 20,
+                paddingLeft: 28,
                 paddingBottom: 40,
             }}
         >
@@ -30,8 +32,8 @@ export function EventItemWrapper({
                 style={{
                     position: 'absolute',
                     borderRadius: 100,
-                    padding: 3,
-                    left: -13,
+                    padding: 8,
+                    left: -18,
                     backgroundColor: '#F7FAFC',
                     shadowColor: '#000',
                     shadowOffset: {
@@ -45,7 +47,7 @@ export function EventItemWrapper({
                 }}
                 onPress={onClick}
             >
-                <AntDesign name='plus' size={20} />
+                <AntDesign name={iconName} size={20} />
             </Ripple>
             {children}
         </View>

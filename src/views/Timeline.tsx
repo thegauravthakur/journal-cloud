@@ -13,8 +13,9 @@ export function Timeline() {
 
     return (
         <ScrollView
-            style={{ marginLeft: 4, marginRight: 6 }}
+            style={{ marginLeft: 4, marginRight: 12 }}
             keyboardShouldPersistTaps={'handled'}
+            showsVerticalScrollIndicator={false}
         >
             <Text
                 style={{

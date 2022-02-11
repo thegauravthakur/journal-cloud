@@ -1,9 +1,10 @@
+import { Theme, useTheme } from '@react-navigation/native';
 import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en.json';
 import { Dispatch, SetStateAction } from 'react';
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
+import { CustomTheme } from '../../App';
 import { Response } from '../views/Timeline';
 import { EventItemWrapper } from './EventItemWrapper';
 
@@ -21,19 +22,38 @@ export function EventItem({
     createdAt,
     isLastItem,
 }: EventItemProps) {
+    const theme = useTheme() as Theme & { colors: CustomTheme };
     const timeAgo = new TimeAgo('en-in');
     const onEventItemClick = async () => {};
 
     return (
         <EventItemWrapper
+            iconName='edit'
             showBorderLine={!isLastItem}
             onClick={onEventItemClick}
         >
             <View style={{ marginBottom: 10 }}>
-                <Text style={{ fontWeight: '700' }}>{title}</Text>
-                <Text>{description}</Text>
+                <Text
+                    style={{
+                        fontWeight: '700',
+                        fontSize: 18,
+                        color: theme.colors.eventTitle,
+                    }}
+                >
+                    {title}
+                </Text>
+                <Text
+                    style={{
+                        fontSize: 16,
+                        fontFamily: 'segoeui',
+                        lineHeight: 25,
+                        color: theme.colors.eventDescription,
+                    }}
+                >
+                    {description}
+                </Text>
             </View>
-            <Text>{timeAgo.format(createdAt)}</Text>
+            <Text style={{ fontSize: 14 }}>{timeAgo.format(createdAt)}</Text>
         </EventItemWrapper>
     );
 }

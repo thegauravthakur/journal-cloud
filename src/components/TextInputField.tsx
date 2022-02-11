@@ -34,13 +34,13 @@ export function TextInputField({ setEvents }: TextInputFieldProps) {
     };
 
     return (
-        <EventItemWrapper onClick={onEventSubmit}>
+        <EventItemWrapper iconName='plus' onClick={onEventSubmit}>
             <View
                 style={{
                     borderWidth: 1,
                     borderRadius: 8,
                     paddingHorizontal: 6,
-                    paddingVertical: 4,
+                    paddingVertical: 10,
                 }}
             >
                 {(isTitleFocused || isDescriptionFocused) && (
@@ -54,7 +54,11 @@ export function TextInputField({ setEvents }: TextInputFieldProps) {
                         onChangeText={(text) => setTitle(text)}
                         placeholder={'title'}
                         multiline={true}
-                        style={{ paddingVertical: 0 }}
+                        style={{
+                            paddingVertical: 0,
+                            fontSize: 18,
+                            marginBottom: 4,
+                        }}
                     />
                 )}
                 <TextInput
@@ -62,10 +66,10 @@ export function TextInputField({ setEvents }: TextInputFieldProps) {
                     onBlur={() => {
                         setTimeout(() => setDescriptionFocus(false), 10);
                     }}
-                    placeholder='description'
+                    placeholder='Add a memory...'
                     multiline={true}
                     onChangeText={(text) => setDescription(text)}
-                    style={{ paddingVertical: 0 }}
+                    style={{ paddingVertical: 0, fontSize: 16, lineHeight: 25 }}
                 />
             </View>
         </EventItemWrapper>

@@ -1,11 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
 import { Dispatch, SetStateAction } from 'react';
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useQuery } from 'react-query';
 
 import { Response } from '../views/Timeline';
 import { EventItem } from './EventItem';
+import { EventsSkeleton } from './EventsSkeleton';
 
 interface EventsProps {
     events: Response;
@@ -24,21 +25,28 @@ export function Events({ events, setEvents }: EventsProps) {
         },
         { onSuccess: setEvents }
     );
-
-    if (isLoading) return <Text>loading...</Text>;
+    const sortedKeys = Object.keys(events).sort(
+        (key1: string, key2: string) =>
+            (events[key2].createdAt as number) -
+            (events[key1].createdAt as number)
+    );
 
     return (
         <View>
-            {Object.keys(events).map((id, index) => (
-                <EventItem
-                    key={id}
-                    isLastItem={Object.keys(events).length === index + 1}
-                    title={events[id].title as string}
-                    description={events[id].description as string}
-                    setEvents={setEvents}
-                    createdAt={events[id].createdAt as number}
-                />
-            ))}
+            {!isLoading ? (
+                sortedKeys.map((id, index) => (
+                    <EventItem
+                        key={id}
+                        isLastItem={Object.keys(events).length === index + 1}
+                        title={events[id].title as string}
+                        description={events[id].description as string}
+                        setEvents={setEvents}
+                        createdAt={events[id].createdAt as number}
+                    />
+                ))
+            ) : (
+                <EventsSkeleton />
+            )}
         </View>
     );
 }
