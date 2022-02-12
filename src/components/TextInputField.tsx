@@ -1,38 +1,60 @@
-﻿import firestore from '@react-native-firebase/firestore';
+﻿import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import * as React from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { TextInput, View } from 'react-native';
+import { v4 as uuid } from 'uuid';
 
-import { queryClient } from '../../App';
+import { DateContext, queryClient } from '../../App';
 import { Response } from '../views/Timeline';
 import { EventItemWrapper } from './EventItemWrapper';
 
-export function TextInputField() {
+interface TextInputFieldProps {
+    isLoading: boolean;
+}
+export function TextInputField({ isLoading }: TextInputFieldProps) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isTitleFocused, setTitleFocus] = useState(false);
     const [isDescriptionFocused, setDescriptionFocus] = useState(false);
+    const { currentDate } = useContext(DateContext);
+    const { currentUser } = auth();
+    const events =
+        (queryClient.getQueryData(['fetchEvents', currentDate]) as Response) ??
+        {};
+    const showBorder = Object.keys(events).length > 0;
 
     const onEventSubmit = async () => {
-        if (title || description) {
-            const date = Date.now();
-            const value = { title, description, createdAt: Date.now() };
+        if ((title || description) && currentUser) {
+            const id = uuid();
+            const value = {
+                title,
+                description,
+                createdAt: Date.now(),
+                image: '',
+            };
 
-            queryClient.setQueryData('fetchEvents', (events) => {
-                const copy = { ...(events as Response) };
-                copy[date.toString()] = value;
-                return copy;
-            });
-
+            queryClient.setQueryData(
+                ['fetchEvents', currentDate],
+                (_events) => {
+                    const copy = { ...(_events as Response) };
+                    copy[id] = value;
+                    return copy;
+                }
+            );
             await firestore()
-                .collection('user')
-                .doc('10-02-2022')
-                .update({ [date]: value });
+                .collection(currentUser.uid)
+                .doc(currentDate)
+                .set({ [id]: value });
         }
     };
 
     return (
-        <EventItemWrapper iconName='plus' onClick={onEventSubmit}>
+        <EventItemWrapper
+            showBorderLine={showBorder || isLoading}
+            iconName='plus'
+            onClick={onEventSubmit}
+        >
             <View
                 style={{
                     borderWidth: 1,

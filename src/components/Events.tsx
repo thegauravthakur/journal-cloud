@@ -1,20 +1,33 @@
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import * as React from 'react';
-import { View } from 'react-native';
+import { useContext } from 'react';
+import { FlatList, View } from 'react-native';
+import { Calendar } from 'react-native-calendars/src';
 import { useQuery } from 'react-query';
 
+import { DateContext } from '../../App';
 import { Response } from '../views/Timeline';
 import { EventItem } from './EventItem';
 import { EventsSkeleton } from './EventsSkeleton';
+import { TimelineHeader } from './TimelineHeader';
 
 export function Events() {
-    const { isLoading, data } = useQuery('fetchEvents', async () => {
-        const { _data } = (await firestore()
-            .collection('user')
-            .doc('10-02-2022')
-            .get()) as unknown as { _data: Response };
-        return _data;
-    });
+    const { currentDate, setCurrentDate } = useContext(DateContext);
+    const { currentUser } = auth();
+    const { isLoading, data } = useQuery(
+        ['fetchEvents', currentDate],
+        async () => {
+            if (currentUser) {
+                const { _data } = (await firestore()
+                    .collection(currentUser?.uid)
+                    .doc(currentDate)
+                    .get()) as unknown as { _data: Response };
+                return _data;
+            }
+            return {};
+        }
+    );
 
     const sortedKeys = data
         ? Object.keys(data).sort(
@@ -26,20 +39,43 @@ export function Events() {
 
     return (
         <View>
-            {!isLoading && data ? (
-                sortedKeys.map((id, index) => (
-                    <EventItem
-                        key={id}
-                        isLastItem={Object.keys(data).length === index + 1}
-                        title={data[id].title as string}
-                        description={data[id].description as string}
-                        id={id}
-                        createdAt={data[id].createdAt as number}
-                    />
-                ))
-            ) : (
-                <EventsSkeleton />
-            )}
+            <FlatList
+                keyboardShouldPersistTaps='handled'
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={() => (
+                    <TimelineHeader isLoading={isLoading} />
+                )}
+                contentContainerStyle={{}}
+                data={sortedKeys}
+                renderItem={({ item, index }) =>
+                    data ? (
+                        <EventItem
+                            isLastItem={Object.keys(data).length === index + 1}
+                            title={data[item].title as string}
+                            description={data[item].description as string}
+                            image={data[item].image as string}
+                            id={item}
+                            createdAt={data[item].createdAt as number}
+                        />
+                    ) : null
+                }
+                ListFooterComponentStyle={{
+                    marginBottom: 30,
+                    marginHorizontal: 20,
+                }}
+                ListFooterComponent={() =>
+                    !isLoading ? (
+                        <Calendar
+                            onDayPress={(date) => {
+                                setCurrentDate(date.dateString);
+                            }}
+                            style={{ borderRadius: 15 }}
+                            current={currentDate}
+                        />
+                    ) : null
+                }
+            />
+            {isLoading && <EventsSkeleton />}
         </View>
     );
 }

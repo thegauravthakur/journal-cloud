@@ -1,11 +1,9 @@
 import { Theme, useNavigation, useTheme } from '@react-navigation/native';
 import TimeAgo from 'javascript-time-ago';
-import { Dispatch, SetStateAction } from 'react';
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 
 import { CustomTheme } from '../../App';
-import { Response } from '../views/Timeline';
 import { EventItemWrapper } from './EventItemWrapper';
 
 interface EventItemProps {
@@ -14,6 +12,7 @@ interface EventItemProps {
     createdAt: number;
     isLastItem: boolean;
     id: string;
+    image: string;
 }
 
 export function EventItem({
@@ -22,6 +21,7 @@ export function EventItem({
     createdAt,
     isLastItem,
     id,
+    image,
 }: EventItemProps) {
     const theme = useTheme() as Theme & { colors: CustomTheme };
     const timeAgo = new TimeAgo('en-in');
@@ -62,6 +62,19 @@ export function EventItem({
                     {description}
                 </Text>
             </View>
+            {(image ?? '').length > 0 && (
+                <Image
+                    source={{
+                        uri: image,
+                    }}
+                    resizeMode='cover'
+                    style={{
+                        height: 180,
+                        borderRadius: 15,
+                        marginBottom: 10,
+                    }}
+                />
+            )}
             <Text style={{ fontSize: 14 }}>{timeAgo.format(createdAt)}</Text>
         </EventItemWrapper>
     );
