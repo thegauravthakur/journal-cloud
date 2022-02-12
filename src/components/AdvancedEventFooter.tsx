@@ -34,8 +34,17 @@ export function AdvancedEventFooter({ setImage }: AdvancedEventFooterProps) {
                     style={{ padding: 10, alignSelf: 'flex-start' }}
                     rippleContainerBorderRadius={100}
                     onPress={async () => {
-                        const pickedImage = await ImagePicker.openPicker({});
-                        setImage(pickedImage.path);
+                        const pickedImage = await ImagePicker.openPicker({
+                            mediaType: 'photo',
+                            multiple: false,
+                        });
+                        const editedImage = await ImagePicker.openCropper({
+                            path: pickedImage.path,
+                            mediaType: 'photo',
+                            freeStyleCropEnabled: true,
+                            compressImageQuality: 0.8,
+                        });
+                        setImage(editedImage.path);
                     }}
                 >
                     <MaterialIcon name={'photo-library'} size={25} />

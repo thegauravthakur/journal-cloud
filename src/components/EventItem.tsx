@@ -32,6 +32,7 @@ export function EventItem({
             title,
             createdAt,
             id,
+            storedImage: image,
         });
     };
 
@@ -42,25 +43,29 @@ export function EventItem({
             onClick={onEventItemClick}
         >
             <View style={{ marginBottom: 10 }}>
-                <Text
-                    style={{
-                        fontWeight: '700',
-                        fontSize: 18,
-                        color: theme.colors.eventTitle,
-                    }}
-                >
-                    {title}
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 16,
-                        fontFamily: 'segoeui',
-                        lineHeight: 25,
-                        color: theme.colors.eventDescription,
-                    }}
-                >
-                    {description}
-                </Text>
+                {title.length > 0 && (
+                    <Text
+                        style={{
+                            fontWeight: '700',
+                            fontSize: 18,
+                            color: theme.colors.eventTitle,
+                        }}
+                    >
+                        {title}
+                    </Text>
+                )}
+                {description.length > 0 && (
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            fontFamily: 'segoeui',
+                            lineHeight: 25,
+                            color: theme.colors.eventDescription,
+                        }}
+                    >
+                        {description}
+                    </Text>
+                )}
             </View>
             {(image ?? '').length > 0 && (
                 <Image

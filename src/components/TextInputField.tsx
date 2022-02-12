@@ -42,10 +42,11 @@ export function TextInputField({ isLoading }: TextInputFieldProps) {
                     return copy;
                 }
             );
+
             await firestore()
                 .collection(currentUser.uid)
                 .doc(currentDate)
-                .set({ [id]: value });
+                .set({ [id]: value }, { merge: true });
         }
     };
 
@@ -78,6 +79,8 @@ export function TextInputField({ isLoading }: TextInputFieldProps) {
                             paddingVertical: 0,
                             fontSize: 18,
                             marginBottom: 4,
+                            fontWeight: '500',
+                            lineHeight: 25,
                         }}
                     />
                 )}
