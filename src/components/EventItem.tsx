@@ -11,7 +11,6 @@ import { EventItemWrapper } from './EventItemWrapper';
 interface EventItemProps {
     title: string;
     description: string;
-    setEvents: Dispatch<SetStateAction<Response>>;
     createdAt: number;
     isLastItem: boolean;
     id: string;

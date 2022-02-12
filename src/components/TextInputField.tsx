@@ -1,15 +1,13 @@
 ﻿import firestore from '@react-native-firebase/firestore';
 import * as React from 'react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
+import { queryClient } from '../../App';
 import { Response } from '../views/Timeline';
 import { EventItemWrapper } from './EventItemWrapper';
 
-interface TextInputFieldProps {
-    setEvents: Dispatch<SetStateAction<Response>>;
-}
-export function TextInputField({ setEvents }: TextInputFieldProps) {
+export function TextInputField() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isTitleFocused, setTitleFocus] = useState(false);
@@ -20,8 +18,8 @@ export function TextInputField({ setEvents }: TextInputFieldProps) {
             const date = Date.now();
             const value = { title, description, createdAt: Date.now() };
 
-            setEvents((events) => {
-                const copy = { ...events };
+            queryClient.setQueryData('fetchEvents', (events) => {
+                const copy = { ...(events as Response) };
                 copy[date.toString()] = value;
                 return copy;
             });

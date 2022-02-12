@@ -15,7 +15,7 @@ export interface CustomTheme {
 
 TimeAgo.addLocale(en);
 const Stack = createNativeStackNavigator();
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const theme = {
     ...DefaultTheme,
