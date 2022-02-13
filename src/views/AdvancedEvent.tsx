@@ -8,7 +8,13 @@ import React, {
     useLayoutEffect,
     useState,
 } from 'react';
-import { ScrollView, Text, TextInput, View } from 'react-native';
+import {
+    ActivityIndicator,
+    ScrollView,
+    Text,
+    TextInput,
+    View,
+} from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import { Bar as ProgressBar } from 'react-native-progress';
 
@@ -47,7 +53,7 @@ export function AdvancedEvent() {
     const { currentDate } = useContext(DateContext);
     const navigation = useNavigation<any>();
     const { eventData, id } = route.params as Params;
-    const { title, description, image: storedImage, createdAt } = eventData;
+    const { title, description, image: storedImage } = eventData;
     const [newTitle, setNewTitle] = useState(title ?? '');
     const [newDescription, setNewDescription] = useState(description ?? '');
     const [image, setImage] = useState<string | null>(storedImage);
@@ -121,10 +127,9 @@ export function AdvancedEvent() {
         } else if (image) {
             copy.image = await uploadNewImage(image);
         }
-
         updateLocalEventData({ updatedEvent: copy, id, currentDate });
-        await updateDocument(copy);
         navigation.goBack();
+        await updateDocument(copy);
     }, [
         currentDate,
         eventData,
@@ -148,6 +153,7 @@ export function AdvancedEvent() {
                         paddingHorizontal: 10,
                         borderWidth: 1,
                         borderRadius: 5,
+                        flexDirection: 'row',
                     }}
                     onPress={onSubmitClick}
                 >
