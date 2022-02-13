@@ -11,6 +11,7 @@ import React, {
 import { ScrollView, Text, TextInput, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import { Bar as ProgressBar } from 'react-native-progress';
+import { v4 as uuidv4 } from 'uuid';
 
 import { DateContext, queryClient } from '../../App';
 import { AdvancedEventFooter } from '../components/AdvancedEventFooter';
@@ -54,10 +55,10 @@ export function AdvancedEvent() {
     const [progress, setProgress] = useState<number>(-1);
 
     const uploadNewImage = useCallback(
-        (file: string) =>
+        (file: string, _id: string) =>
             new Promise<string | null>((resolve) => {
                 const ref = storage().ref(
-                    `${currentUser!.uid}/${currentDate}/${id}`
+                    `${currentUser!.uid}/${currentDate}/${_id}`
                 );
                 const process = ref.putFile(file);
                 process.on(
@@ -74,7 +75,7 @@ export function AdvancedEvent() {
                     }
                 );
             }),
-        [currentDate, currentUser, id]
+        [currentDate, currentUser]
     );
 
     const removeImageFromDB = useCallback(
@@ -88,20 +89,21 @@ export function AdvancedEvent() {
         [currentDate, currentUser, id]
     );
     const updateDocument = useCallback(
-        (updatedEvent: EventType) =>
+        (updatedEvent: EventType, _id: string) =>
             new Promise((resolve) => {
                 resolve(
                     firestore()
                         .collection(currentUser!.uid)
                         .doc(currentDate)
-                        .update({ [id]: updatedEvent })
+                        .update({ [_id]: updatedEvent })
                 );
             }),
-        [currentDate, currentUser, id]
+        [currentDate, currentUser]
     );
 
     const onSubmitClick = useCallback(async () => {
         // on edit click
+        const newId = uuidv4();
         const copy = {
             ...eventData,
             title: newTitle,
@@ -116,14 +118,19 @@ export function AdvancedEvent() {
                 (image && storedImage && image !== storedImage)
             ) {
                 // user selected a new image
-                copy.image = await uploadNewImage(image);
+                copy.image = await uploadNewImage(image, id);
             }
-        } else if (image) {
-            copy.image = await uploadNewImage(image);
+        } else {
+            if (image) copy.image = await uploadNewImage(image, newId);
+            copy.createdAt = Date.now();
         }
-        updateLocalEventData({ updatedEvent: copy, id, currentDate });
+        updateLocalEventData({
+            updatedEvent: copy,
+            id: id ?? newId,
+            currentDate,
+        });
         navigation.goBack();
-        await updateDocument(copy);
+        await updateDocument(copy, id ?? newId);
     }, [
         currentDate,
         eventData,
@@ -142,6 +149,12 @@ export function AdvancedEvent() {
         navigation.setOptions({
             headerRight: () => (
                 <Ripple
+                    disabled={
+                        newTitle.length === 0 &&
+                        newDescription.length === 0 &&
+                        !image &&
+                        !storedImage
+                    }
                     style={{
                         paddingVertical: 5,
                         paddingHorizontal: 10,

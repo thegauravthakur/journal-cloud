@@ -102,8 +102,7 @@ export function TextInputField({ isLoading }: TextInputFieldProps) {
                     <Ripple
                         onPress={() => {
                             navigation.navigate('Advanced Event', {
-                                isNew: true,
-                                storedImage: '',
+                                eventData: { title, description, image: null },
                             });
                         }}
                         style={{
