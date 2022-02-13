@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 interface ChosenImagesProps {
     images: string;
-    setImage: Dispatch<SetStateAction<string>>;
+    setImage: Dispatch<SetStateAction<string | null>>;
 }
 export function ChosenImages({ images, setImage }: ChosenImagesProps) {
     return (
@@ -29,7 +29,7 @@ export function ChosenImages({ images, setImage }: ChosenImagesProps) {
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() => {
-                    setImage('');
+                    setImage(null);
                 }}
                 style={{
                     backgroundColor: '#111827',

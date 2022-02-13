@@ -5,7 +5,7 @@ import Ripple from 'react-native-material-ripple';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 interface AdvancedEventFooterProps {
-    setImage: Dispatch<SetStateAction<string>>;
+    setImage: Dispatch<SetStateAction<string | null>>;
 }
 
 const checkAndAskCameraPermission = () =>
@@ -61,8 +61,7 @@ export function AdvancedEventFooter({ setImage }: AdvancedEventFooterProps) {
                                 setImage(editedImage.path);
                             }
                         } catch (e) {
-                            console.log(e);
-                            setImage('');
+                            setImage(null);
                         }
                     }}
                 >
@@ -86,7 +85,7 @@ export function AdvancedEventFooter({ setImage }: AdvancedEventFooterProps) {
                             });
                             setImage(editedImage.path);
                         } catch (e) {
-                            setImage('');
+                            setImage(null);
                         }
                     }}
                 >

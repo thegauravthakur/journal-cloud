@@ -6,7 +6,14 @@ import { Text, View } from 'react-native';
 
 import { Events } from '../components/Events';
 
-export type Response = Record<string, Record<string, string | number>>;
+export interface EventType {
+    createdAt: number;
+    description: string;
+    image: string | null;
+    title: string;
+}
+
+export type Response = Record<string, EventType>;
 
 export function Timeline() {
     const navigation = useNavigation();

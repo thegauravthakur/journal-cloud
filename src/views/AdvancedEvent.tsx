@@ -15,106 +15,128 @@ import { Bar as ProgressBar } from 'react-native-progress';
 import { DateContext, queryClient } from '../../App';
 import { AdvancedEventFooter } from '../components/AdvancedEventFooter';
 import { ChosenImages } from '../components/ChosenImages';
-import { Response } from './Timeline';
+import { EventType, Response } from './Timeline';
+
+interface Params {
+    id: string;
+    eventData: EventType;
+}
+
+interface UpdateLocalEventData {
+    currentDate: string;
+    id: string;
+    updatedEvent: EventType;
+}
+const updateLocalEventData = ({
+    currentDate,
+    updatedEvent,
+    id,
+}: UpdateLocalEventData) => {
+    queryClient.setQueryData(['fetchEvents', currentDate], (_events) => {
+        const copy = {
+            ...(_events as Response),
+        };
+        copy[id] = updatedEvent;
+        return copy;
+    });
+};
 
 export function AdvancedEvent() {
     const route = useRoute();
     const { currentUser } = auth();
     const { currentDate } = useContext(DateContext);
     const navigation = useNavigation<any>();
-    const [newTitle, setNewTitle] = useState('');
-    const [newDescription, setNewDescription] = useState('');
-    const { title, description, id, createdAt, storedImage } =
-        route.params as any;
-    const [image, setImage] = useState<string>(storedImage);
+    const { eventData, id } = route.params as Params;
+    const { title, description, image: storedImage, createdAt } = eventData;
+    const [newTitle, setNewTitle] = useState(title ?? '');
+    const [newDescription, setNewDescription] = useState(description ?? '');
+    const [image, setImage] = useState<string | null>(storedImage);
     const [progress, setProgress] = useState<number>(-1);
 
-    const onSubmitClick = useCallback(async () => {
-        if (image.length > 0 && image !== storedImage && currentUser) {
-            const reference = storage().ref(
-                `${currentUser.uid}/${currentDate}/${id}`
-            );
-            const target = reference.putFile(image);
-            target.on(
-                'state_changed',
-                (snapshot) => {
-                    const progressPercentage =
-                        snapshot.bytesTransferred / snapshot.totalBytes;
-                    setProgress(progressPercentage);
-                },
-                () => {
-                    navigation.goBack();
-                },
-                async () => {
-                    const url = await target.snapshot?.ref.getDownloadURL();
-                    const updatedEvent = {
-                        id,
-                        createdAt,
-                        title: newTitle || title,
-                        description: newDescription || description,
-                        image: url ?? '',
-                    };
-                    queryClient.setQueryData(
-                        ['fetchEvents', currentDate],
-                        (_events) => {
-                            const copy = {
-                                ...(_events as Response),
-                            };
-                            copy[id] = updatedEvent;
-                            return copy;
-                        }
-                    );
-                    navigation.goBack();
-                    await firestore()
-                        .collection(currentUser.uid)
-                        .doc(currentDate)
-                        .update({ [id]: updatedEvent });
-                }
-            );
-        } else {
-            const updatedEvent = {
-                id,
-                createdAt,
-                title: newTitle || title,
-                description: newDescription || description,
-                image:
-                    storedImage.length > 0 && image.length === 0
-                        ? ''
-                        : storedImage || '',
-            };
-            queryClient.setQueryData(
-                ['fetchEvents', currentDate],
-                (_events) => {
-                    const copy = { ...(_events as Response) };
-                    copy[id] = updatedEvent;
-                    return copy;
-                }
-            );
-            navigation.goBack();
-            if (currentUser)
-                await firestore()
-                    .collection(currentUser.uid)
-                    .doc(currentDate)
-                    .update({ [id]: updatedEvent });
-            if (storedImage.length > 0 && image.length === 0 && currentUser) {
-                const reference = storage().ref(
-                    `${currentUser.uid}/${currentDate}/${id}`
+    const uploadNewImage = useCallback(
+        (file: string) =>
+            new Promise<string | null>((resolve) => {
+                const ref = storage().ref(
+                    `${currentUser!.uid}/${currentDate}/${id}`
                 );
-                await reference.delete();
+                const process = ref.putFile(file);
+                process.on(
+                    'state_changed',
+                    ({ bytesTransferred, totalBytes }) => {
+                        const transferProgress = bytesTransferred / totalBytes;
+                        setProgress(transferProgress);
+                    },
+                    () => {
+                        resolve(null);
+                    },
+                    async () => {
+                        resolve(ref.getDownloadURL());
+                    }
+                );
+            }),
+        [currentDate, currentUser, id]
+    );
+
+    const removeImageFromDB = useCallback(
+        () =>
+            new Promise((resolve) => {
+                const ref = storage().ref(
+                    `${currentUser!.uid}/${currentDate}/${id}`
+                );
+                resolve(ref.delete());
+            }),
+        [currentDate, currentUser, id]
+    );
+    const updateDocument = useCallback(
+        (updatedEvent: EventType) =>
+            new Promise((resolve) => {
+                resolve(
+                    firestore()
+                        .collection(currentUser!.uid)
+                        .doc(currentDate)
+                        .update({ [id]: updatedEvent })
+                );
+            }),
+        [currentDate, currentUser, id]
+    );
+
+    const onSubmitClick = useCallback(async () => {
+        // on edit click
+        const copy = {
+            ...eventData,
+            title: newTitle,
+            description: newDescription,
+        };
+        if (id) {
+            if (!image && storedImage) {
+                await removeImageFromDB();
+                copy.image = null;
+            } else if (
+                (image && !storedImage) ||
+                (image && storedImage && image !== storedImage)
+            ) {
+                // user selected a new image
+                copy.image = await uploadNewImage(image);
             }
+        } else if (image) {
+            copy.image = await uploadNewImage(image);
         }
+
+        updateLocalEventData({ updatedEvent: copy, id, currentDate });
+        await updateDocument(copy);
+        navigation.goBack();
     }, [
-        createdAt,
         currentDate,
-        currentUser,
-        description,
+        eventData,
         id,
         image,
         navigation,
         newDescription,
         newTitle,
+        removeImageFromDB,
         storedImage,
-        title,
+        updateDocument,
+        uploadNewImage,
     ]);
 
     useLayoutEffect(() => {
@@ -171,9 +193,7 @@ export function AdvancedEvent() {
                     defaultValue={description}
                     style={{ fontSize: 16, lineHeight: 25 }}
                 />
-                {image.length > 0 && (
-                    <ChosenImages setImage={setImage} images={image} />
-                )}
+                {image && <ChosenImages setImage={setImage} images={image} />}
             </ScrollView>
             <AdvancedEventFooter setImage={setImage} />
         </View>

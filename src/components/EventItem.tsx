@@ -4,36 +4,22 @@ import * as React from 'react';
 import { Image, Text, View } from 'react-native';
 
 import { CustomTheme } from '../../App';
+import { EventType } from '../views/Timeline';
 import { EventItemWrapper } from './EventItemWrapper';
 
 interface EventItemProps {
-    title: string;
-    description: string;
-    createdAt: number;
+    eventData: EventType;
     isLastItem: boolean;
     id: string;
-    image: string;
 }
 
-export function EventItem({
-    description,
-    title,
-    createdAt,
-    isLastItem,
-    id,
-    image,
-}: EventItemProps) {
+export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
     const theme = useTheme() as Theme & { colors: CustomTheme };
+    const { title, description, image, createdAt } = eventData;
     const timeAgo = new TimeAgo('en-in');
     const navigation = useNavigation<any>();
     const onEventItemClick = async () => {
-        navigation.navigate('Advanced Event', {
-            description,
-            title,
-            createdAt,
-            id,
-            storedImage: image,
-        });
+        navigation.navigate('Advanced Event', { id, eventData });
     };
 
     return (

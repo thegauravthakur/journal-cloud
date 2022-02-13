@@ -52,11 +52,8 @@ export function Events() {
                     data ? (
                         <EventItem
                             isLastItem={Object.keys(data).length === index + 1}
-                            title={data[item].title as string}
-                            description={data[item].description as string}
-                            image={data[item].image as string}
                             id={item}
-                            createdAt={data[item].createdAt as number}
+                            eventData={data[item]}
                         />
                     ) : null
                 }
