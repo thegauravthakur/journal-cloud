@@ -1,15 +1,22 @@
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import React from 'react';
-import { Text, View } from 'react-native';
-import Ripple from 'react-native-material-ripple';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 GoogleSignin.configure({
     webClientId:
         '532046054426-ql71ch7dnavmja3feollrainnjcm0ifr.apps.googleusercontent.com',
 });
+
 export function LoginPage() {
+    const [isLoading, setLoading] = useState(true);
+    function onAuthStateChanged() {
+        setLoading(false);
+    }
+
+    useEffect(() => auth().onAuthStateChanged(onAuthStateChanged), []);
+
     return (
         <View
             style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}
@@ -35,15 +42,13 @@ export function LoginPage() {
                 >
                     A clean UI experience is just a minute away
                 </Text>
-                <Ripple
+                <TouchableOpacity
+                    disabled={isLoading}
                     onPress={async () => {
                         const { idToken } = await GoogleSignin.signIn();
                         const googleCredential =
                             auth.GoogleAuthProvider.credential(idToken);
-                        const { user } = await auth().signInWithCredential(
-                            googleCredential
-                        );
-                        console.log(user);
+                        await auth().signInWithCredential(googleCredential);
                     }}
                     style={{
                         borderWidth: 1,
@@ -59,10 +64,17 @@ export function LoginPage() {
                         style={{ marginRight: 10 }}
                         size={20}
                     />
-                    <Text style={{ fontSize: 16, textTransform: 'uppercase' }}>
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            textTransform: 'uppercase',
+                            marginRight: 10,
+                        }}
+                    >
                         Sign in with Google
                     </Text>
-                </Ripple>
+                    {isLoading && <ActivityIndicator />}
+                </TouchableOpacity>
             </View>
         </View>
     );

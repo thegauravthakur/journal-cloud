@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import * as React from 'react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { AdvancedEvent } from './src/views/AdvancedEvent';
@@ -47,15 +47,12 @@ export function App() {
     const [currentDate, setCurrentDate] = useState(
         format(new Date(), 'yyyy-MM-dd')
     );
-    const [isLoading, setLoading] = useState(true);
 
     function onAuthStateChanged(_user: any) {
         setUser(_user);
-        setLoading(false);
     }
 
     useEffect(() => auth().onAuthStateChanged(onAuthStateChanged), []);
-    if (isLoading) return null;
 
     return (
         <QueryClientProvider client={queryClient}>

@@ -3,18 +3,19 @@ import firestore from '@react-native-firebase/firestore';
 import * as React from 'react';
 import { useContext } from 'react';
 import { FlatList, View } from 'react-native';
-import { Calendar } from 'react-native-calendars/src';
 import { useQuery } from 'react-query';
 
 import { DateContext } from '../../App';
 import { Response } from '../views/Timeline';
+import { CustomCalendar } from './CustomCalendar';
 import { EventItem } from './EventItem';
 import { EventsSkeleton } from './EventsSkeleton';
 import { TimelineHeader } from './TimelineHeader';
 
 export function Events() {
-    const { currentDate, setCurrentDate } = useContext(DateContext);
+    const { currentDate } = useContext(DateContext);
     const { currentUser } = auth();
+
     const { isLoading, data } = useQuery(
         ['fetchEvents', currentDate],
         async () => {
@@ -64,15 +65,7 @@ export function Events() {
                     marginHorizontal: 20,
                 }}
                 ListFooterComponent={() =>
-                    !isLoading ? (
-                        <Calendar
-                            onDayPress={(date) => {
-                                setCurrentDate(date.dateString);
-                            }}
-                            style={{ borderRadius: 15 }}
-                            current={currentDate}
-                        />
-                    ) : null
+                    !isLoading ? <CustomCalendar /> : null
                 }
             />
             {isLoading && <EventsSkeleton />}
