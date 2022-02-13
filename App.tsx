@@ -10,7 +10,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { AdvancedEvent } from './src/views/AdvancedEvent';
 import { LoginPage } from './src/views/LoginPage';
-import { Timeline } from './src/views/Timeline';
+import { EventType, Timeline } from './src/views/Timeline';
 
 export interface CustomTheme {
     eventTitle: string;
@@ -18,7 +18,13 @@ export interface CustomTheme {
 }
 
 TimeAgo.addLocale(en);
-const Stack = createNativeStackNavigator();
+export type StackParams = {
+    Login: {};
+    Home: undefined;
+    AdvancedEvent: { eventData: EventType };
+};
+
+const Stack = createNativeStackNavigator<StackParams>();
 export const queryClient = new QueryClient();
 
 const theme = {
@@ -75,14 +81,14 @@ export function App() {
                         ) : (
                             <>
                                 <Stack.Screen
-                                    name={'Indexing Life'}
+                                    name={'Home'}
                                     component={Timeline}
                                     options={{
                                         headerTitleAlign: 'center',
                                     }}
                                 />
                                 <Stack.Screen
-                                    name={'Advanced Event'}
+                                    name={'AdvancedEvent'}
                                     component={AdvancedEvent}
                                     options={{
                                         headerTitleAlign: 'center',

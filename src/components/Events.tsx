@@ -9,6 +9,7 @@ import { DateContext } from '../../App';
 import { Response } from '../views/Timeline';
 import { CustomCalendar } from './CustomCalendar';
 import { EventItem } from './EventItem';
+import { EventsSkeleton } from './EventsSkeleton';
 import { TimelineHeader } from './TimelineHeader';
 
 export function Events() {
@@ -64,6 +65,7 @@ export function Events() {
                     !isLoading ? <CustomCalendar /> : null
                 }
             />
+            {isLoading && <EventsSkeleton />}
         </View>
     );
 }

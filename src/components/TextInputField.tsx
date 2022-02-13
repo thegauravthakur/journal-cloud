@@ -1,6 +1,7 @@
 ﻿import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { TextInput, View } from 'react-native';
@@ -8,15 +9,16 @@ import Ripple from 'react-native-material-ripple';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { v4 as uuid } from 'uuid';
 
-import { DateContext, queryClient } from '../../App';
+import { DateContext, queryClient, StackParams } from '../../App';
 import { Response } from '../views/Timeline';
 import { EventItemWrapper } from './EventItemWrapper';
 
 interface TextInputFieldProps {
     isLoading: boolean;
 }
+
 export function TextInputField({ isLoading }: TextInputFieldProps) {
-    const navigation = useNavigation();
+    const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isTitleFocused, setTitleFocus] = useState(false);
@@ -101,8 +103,13 @@ export function TextInputField({ isLoading }: TextInputFieldProps) {
                 {(isTitleFocused || isDescriptionFocused) && (
                     <Ripple
                         onPress={() => {
-                            navigation.navigate('Advanced Event', {
-                                eventData: { title, description, image: null },
+                            navigation.navigate('AdvancedEvent', {
+                                eventData: {
+                                    title,
+                                    description,
+                                    image: null,
+                                    createdAt: Date.now(),
+                                },
                             });
                         }}
                         style={{
