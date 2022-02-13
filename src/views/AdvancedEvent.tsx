@@ -153,6 +153,7 @@ export function AdvancedEvent() {
                     />
                 )}
                 <TextInput
+                    placeholder='Enter title...'
                     multiline
                     onChangeText={(text) => setNewTitle(text)}
                     defaultValue={title}
@@ -164,6 +165,7 @@ export function AdvancedEvent() {
                 />
 
                 <TextInput
+                    placeholder='Enter description...'
                     onChangeText={(text) => setNewDescription(text)}
                     multiline
                     defaultValue={description}

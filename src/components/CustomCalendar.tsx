@@ -25,14 +25,15 @@ export function CustomCalendar() {
                 else resolve([]);
             })
     );
-    convertedActiveDates[currentDate] = {
-        selected: true,
-    };
     if (activeDates) {
         activeDates.forEach((date) => {
             convertedActiveDates[date] = { marked: true };
         });
     }
+
+    convertedActiveDates[currentDate] = {
+        selected: true,
+    };
 
     return (
         <Calendar
