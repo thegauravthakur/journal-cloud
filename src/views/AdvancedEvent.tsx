@@ -8,13 +8,7 @@ import React, {
     useLayoutEffect,
     useState,
 } from 'react';
-import {
-    ActivityIndicator,
-    ScrollView,
-    Text,
-    TextInput,
-    View,
-} from 'react-native';
+import { ScrollView, Text, TextInput, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import { Bar as ProgressBar } from 'react-native-progress';
 
@@ -28,7 +22,7 @@ interface Params {
     eventData: EventType;
 }
 
-interface UpdateLocalEventData {
+export interface UpdateLocalEventData {
     currentDate: string;
     id: string;
     updatedEvent: EventType;
@@ -201,7 +195,11 @@ export function AdvancedEvent() {
                 />
                 {image && <ChosenImages setImage={setImage} images={image} />}
             </ScrollView>
-            <AdvancedEventFooter setImage={setImage} />
+            <AdvancedEventFooter
+                hasImage={Boolean(storedImage)}
+                id={id}
+                setImage={setImage}
+            />
         </View>
     );
 }

@@ -1,12 +1,35 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import { useNavigation } from '@react-navigation/native';
+import React, { Dispatch, SetStateAction, useContext } from 'react';
 import { PermissionsAndroid, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Ripple from 'react-native-material-ripple';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
+import { DateContext, queryClient } from '../../App';
+import { Response } from '../views/Timeline';
+
 interface AdvancedEventFooterProps {
     setImage: Dispatch<SetStateAction<string | null>>;
+    id: string;
+    hasImage: boolean;
 }
+
+export interface DeleteLocalEventData {
+    currentDate: string;
+    id: string;
+}
+const deleteLocalEventData = ({ currentDate, id }: DeleteLocalEventData) => {
+    queryClient.setQueryData(['fetchEvents', currentDate], (_events) => {
+        const copy = {
+            ...(_events as Response),
+        };
+        delete copy[id];
+        return copy;
+    });
+};
 
 const checkAndAskCameraPermission = () =>
     new Promise((resolve) => {
@@ -21,7 +44,38 @@ const checkAndAskCameraPermission = () =>
         );
     });
 
-export function AdvancedEventFooter({ setImage }: AdvancedEventFooterProps) {
+export function AdvancedEventFooter({
+    setImage,
+    id,
+    hasImage,
+}: AdvancedEventFooterProps) {
+    const navigation = useNavigation();
+    const { currentDate } = useContext(DateContext);
+    const { uid } = auth().currentUser!;
+
+    const deleteImage = () =>
+        new Promise((resolve) => {
+            if (hasImage) {
+                const ref = storage().ref(`${uid}/${currentDate}/${id}`);
+                resolve(ref.delete());
+            } else resolve(true);
+        });
+    const deleteDocument = () =>
+        new Promise((resolve) => {
+            resolve(
+                firestore()
+                    .collection(uid)
+                    .doc(currentDate)
+                    .update({ [id]: firestore.FieldValue.delete() })
+            );
+        });
+
+    const onDeleteIconClick = async () => {
+        deleteLocalEventData({ currentDate, id });
+        navigation.goBack();
+        await deleteImage();
+        await deleteDocument();
+    };
     return (
         <View
             style={{
@@ -96,6 +150,7 @@ export function AdvancedEventFooter({ setImage }: AdvancedEventFooterProps) {
                 rippleCentered={true}
                 style={{ padding: 10, alignSelf: 'center' }}
                 rippleContainerBorderRadius={100}
+                onPress={onDeleteIconClick}
             >
                 <MaterialIcon name={'delete'} size={25} />
             </Ripple>

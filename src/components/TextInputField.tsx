@@ -35,7 +35,7 @@ export function TextInputField({ isLoading }: TextInputFieldProps) {
                 title,
                 description,
                 createdAt: Date.now(),
-                image: '',
+                image: null,
             };
 
             queryClient.setQueryData(

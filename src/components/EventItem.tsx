@@ -53,7 +53,7 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
                     </Text>
                 )}
             </View>
-            {(image ?? '').length > 0 && (
+            {image && (
                 <Image
                     source={{
                         uri: image,
