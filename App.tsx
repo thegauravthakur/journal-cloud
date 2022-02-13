@@ -44,15 +44,19 @@ export const DateContext = React.createContext<DateContextType>({
 
 export function App() {
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+    const [loading, setLoading] = useState(true);
     const [currentDate, setCurrentDate] = useState(
         format(new Date(), 'yyyy-MM-dd')
     );
 
     function onAuthStateChanged(_user: any) {
         setUser(_user);
+        setLoading(false);
     }
 
     useEffect(() => auth().onAuthStateChanged(onAuthStateChanged), []);
+
+    if (loading) return null;
 
     return (
         <QueryClientProvider client={queryClient}>

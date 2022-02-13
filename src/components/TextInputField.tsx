@@ -1,8 +1,11 @@
 ﻿import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useContext, useState } from 'react';
 import { TextInput, View } from 'react-native';
+import Ripple from 'react-native-material-ripple';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import { v4 as uuid } from 'uuid';
 
 import { DateContext, queryClient } from '../../App';
@@ -13,6 +16,7 @@ interface TextInputFieldProps {
     isLoading: boolean;
 }
 export function TextInputField({ isLoading }: TextInputFieldProps) {
+    const navigation = useNavigation();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isTitleFocused, setTitleFocus] = useState(false);
@@ -94,6 +98,24 @@ export function TextInputField({ isLoading }: TextInputFieldProps) {
                     onChangeText={(text) => setDescription(text)}
                     style={{ paddingVertical: 0, fontSize: 16, lineHeight: 25 }}
                 />
+                {(isTitleFocused || isDescriptionFocused) && (
+                    <Ripple
+                        onPress={() => {
+                            navigation.navigate('Advanced Event', {
+                                isNew: true,
+                                storedImage: '',
+                            });
+                        }}
+                        style={{
+                            padding: 4,
+                            alignSelf: 'flex-start',
+                        }}
+                        rippleContainerBorderRadius={100}
+                        rippleCentered
+                    >
+                        <IonIcon name='expand' size={18} />
+                    </Ripple>
+                )}
             </View>
         </EventItemWrapper>
     );
