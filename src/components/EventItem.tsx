@@ -19,7 +19,7 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
     const timeAgo = new TimeAgo('en-in');
     const navigation = useNavigation<any>();
     const onEventItemClick = async () => {
-        navigation.navigate('Advanced Event', { id, eventData });
+        navigation.navigate('AdvancedEvent', { id, eventData });
     };
 
     return (
