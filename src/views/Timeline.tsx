@@ -4,6 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { useEffect, useLayoutEffect } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 import Ripple from 'react-native-material-ripple';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -25,10 +26,16 @@ export function Timeline() {
 
     useEffect(() => {
         ReceiveSharingIntent.getReceivedFiles(
-            (files: any) => {
+            async (files: any) => {
                 const { contentUri } = files[0];
+                const { path } = await ImagePicker.openCropper({
+                    path: contentUri,
+                    mediaType: 'photo',
+                    freeStyleCropEnabled: true,
+                    compressImageQuality: 0.8,
+                });
                 const eventData: EventType = {
-                    image: contentUri,
+                    image: path,
                     createdAt: Date.now(),
                     title: '',
                     description: '',
@@ -41,7 +48,7 @@ export function Timeline() {
         return () => {
             ReceiveSharingIntent.clearReceivedFiles();
         };
-    });
+    }, [navigation]);
 
     useLayoutEffect(() => {
         navigation.setOptions({
