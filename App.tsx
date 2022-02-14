@@ -6,7 +6,6 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import * as React from 'react';
 import { SetStateAction, useEffect, useState } from 'react';
-import { Text } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { AdvancedEvent } from './src/views/AdvancedEvent';

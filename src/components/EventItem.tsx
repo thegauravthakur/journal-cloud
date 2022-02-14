@@ -3,7 +3,6 @@ import TimeAgo from 'javascript-time-ago';
 import * as React from 'react';
 import { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
 import ImageView from 'react-native-image-viewing';
 
 import { CustomTheme } from '../../App';
