@@ -1,7 +1,10 @@
 import { Theme, useNavigation, useTheme } from '@react-navigation/native';
 import TimeAgo from 'javascript-time-ago';
 import * as React from 'react';
-import { Image, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImageView from 'react-native-image-viewing';
 
 import { CustomTheme } from '../../App';
 import { EventType } from '../views/Timeline';
@@ -16,6 +19,7 @@ interface EventItemProps {
 export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
     const theme = useTheme() as Theme & { colors: CustomTheme };
     const { title, description, image, createdAt } = eventData;
+    const [showImageViewer, setShowImageViewer] = useState(false);
     const timeAgo = new TimeAgo('en-in');
     const navigation = useNavigation<any>();
     const onEventItemClick = async () => {
@@ -54,19 +58,33 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
                 )}
             </View>
             {image && (
-                <Image
-                    source={{
-                        uri: image,
+                <TouchableOpacity
+                    onPress={async () => {
+                        setShowImageViewer(true);
                     }}
-                    resizeMode='cover'
-                    style={{
-                        height: 180,
-                        borderRadius: 15,
-                        marginBottom: 10,
-                    }}
-                />
+                >
+                    <Image
+                        source={{
+                            uri: image,
+                        }}
+                        resizeMode='cover'
+                        style={{
+                            height: 180,
+                            borderRadius: 15,
+                            marginBottom: 10,
+                        }}
+                    />
+                </TouchableOpacity>
             )}
             <Text style={{ fontSize: 14 }}>{timeAgo.format(createdAt)}</Text>
+            {image && (
+                <ImageView
+                    images={[{ uri: image }]}
+                    imageIndex={0}
+                    visible={showImageViewer}
+                    onRequestClose={() => setShowImageViewer(false)}
+                />
+            )}
         </EventItemWrapper>
     );
 }

@@ -95,7 +95,7 @@ export function AdvancedEvent() {
                     firestore()
                         .collection(currentUser!.uid)
                         .doc(currentDate)
-                        .update({ [_id]: updatedEvent })
+                        .set({ [_id]: updatedEvent }, { merge: true })
                 );
             }),
         [currentDate, currentUser]

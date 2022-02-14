@@ -3,6 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import * as React from 'react';
 import { useContext } from 'react';
 import { FlatList, View } from 'react-native';
+import ImageView from 'react-native-image-viewing';
 import { useQuery } from 'react-query';
 
 import { DateContext } from '../../App';

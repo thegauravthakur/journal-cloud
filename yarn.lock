@@ -1294,6 +1294,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-14.3.2.tgz#35f7132d01792602f1cfb04a6ccb2d0afac7a94d"
   integrity sha512-bFQP4cV6sEV8xkskvSt6CUMalvs8rq3gehlsa1LqTowx2KMsoNrJKdShwMWi+xOGomWRp1eH7u7rreieqKLLmw==
 
+"@react-native-firebase/messaging@^14.4.0":
+  version "14.4.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-14.4.0.tgz#3f251584560e72052fee5d29dd5825f330acb7bd"
+  integrity sha512-EBz5xABhSDqlSgsrbmZD3Nk/JV3Mka+0iTIQ4vaUa/4xOJ4faio6FDMhn1OUJt9pXkq3M0TBVHHZ8lDBf13R3w==
+
 "@react-native-firebase/storage@^14.3.2":
   version "14.3.2"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-14.3.2.tgz#88db8609de033c1abf568891035b01263d7a26f6"
@@ -6491,6 +6496,11 @@ react-native-image-crop-picker@^0.37.2:
   version "0.37.2"
   resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.37.2.tgz#3aadc4ae4812c9975c49a294d9a17ffae057dbb4"
   integrity sha512-YwZXW21Km8+3tSt0smTaLVgY4398c0/OJcpcH6EP0JDOt1BNNxl/R8m6qdvnwdXdIoa0CCnMVW6TL9IN5ia9OA==
+
+react-native-image-viewing@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-image-viewing/-/react-native-image-viewing-0.2.1.tgz#ab06ed41d932cd12d0c54f48316de505fc5c06c0"
+  integrity sha512-A34hsGJk8utKGhWU6Y4i39E38K7ls0XvSC4irfr2guP47uehyU5OjXbWG3wvC4oFVJlTMj8x+N8TL09GHeIETw==
 
 react-native-material-ripple@^0.9.1:
   version "0.9.1"
