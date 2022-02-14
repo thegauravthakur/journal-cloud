@@ -21,7 +21,7 @@ TimeAgo.addLocale(en);
 export type StackParams = {
     Login: {};
     Home: undefined;
-    AdvancedEvent: { eventData: EventType };
+    AdvancedEvent: { eventData: EventType; id?: string };
 };
 
 const Stack = createNativeStackNavigator<StackParams>();

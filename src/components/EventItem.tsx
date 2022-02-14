@@ -1,11 +1,12 @@
 import { Theme, useNavigation, useTheme } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import TimeAgo from 'javascript-time-ago';
 import * as React from 'react';
 import { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 
-import { CustomTheme } from '../../App';
+import { CustomTheme, StackParams } from '../../App';
 import { EventType } from '../views/Timeline';
 import { EventItemWrapper } from './EventItemWrapper';
 
@@ -20,7 +21,7 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
     const { title, description, image, createdAt } = eventData;
     const [showImageViewer, setShowImageViewer] = useState(false);
     const timeAgo = new TimeAgo('en-in');
-    const navigation = useNavigation<any>();
+    const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     const onEventItemClick = async () => {
         navigation.navigate('AdvancedEvent', { id, eventData });
     };

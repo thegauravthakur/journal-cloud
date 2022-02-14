@@ -2,6 +2,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, {
     useCallback,
     useContext,
@@ -13,7 +14,7 @@ import Ripple from 'react-native-material-ripple';
 import { Bar as ProgressBar } from 'react-native-progress';
 import { v4 as uuidv4 } from 'uuid';
 
-import { DateContext, queryClient } from '../../App';
+import { DateContext, queryClient, StackParams } from '../../App';
 import { AdvancedEventFooter } from '../components/AdvancedEventFooter';
 import { ChosenImages } from '../components/ChosenImages';
 import { EventType, Response } from './Timeline';
@@ -46,7 +47,7 @@ export function AdvancedEvent() {
     const route = useRoute();
     const { currentUser } = auth();
     const { currentDate } = useContext(DateContext);
-    const navigation = useNavigation<any>();
+    const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     const { eventData, id } = route.params as Params;
     const { title, description, image: storedImage } = eventData;
     const [newTitle, setNewTitle] = useState(title ?? '');
@@ -168,7 +169,14 @@ export function AdvancedEvent() {
                 </Ripple>
             ),
         });
-    }, [navigation, onSubmitClick]);
+    }, [
+        image,
+        navigation,
+        newDescription.length,
+        newTitle.length,
+        onSubmitClick,
+        storedImage,
+    ]);
 
     return (
         <View
