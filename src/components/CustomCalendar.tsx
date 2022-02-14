@@ -41,7 +41,7 @@ export function CustomCalendar() {
             onDayPress={(date) => {
                 setCurrentDate(date.dateString);
             }}
-            style={{ borderRadius: 15 }}
+            style={{ borderRadius: 5 }}
             current={currentDate}
         />
     );

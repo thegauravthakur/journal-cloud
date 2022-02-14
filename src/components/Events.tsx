@@ -7,7 +7,6 @@ import { useQuery } from 'react-query';
 
 import { DateContext } from '../../App';
 import { Response } from '../views/Timeline';
-import { CustomCalendar } from './CustomCalendar';
 import { EventItem } from './EventItem';
 import { EventsSkeleton } from './EventsSkeleton';
 import { TimelineHeader } from './TimelineHeader';
@@ -44,7 +43,10 @@ export function Events() {
                 keyboardShouldPersistTaps='handled'
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={() => (
-                    <TimelineHeader isLoading={isLoading} />
+                    <TimelineHeader
+                        hasData={sortedKeys.length > 0}
+                        isLoading={isLoading}
+                    />
                 )}
                 contentContainerStyle={{}}
                 data={sortedKeys}
@@ -56,13 +58,6 @@ export function Events() {
                             eventData={data[item]}
                         />
                     ) : null
-                }
-                ListFooterComponentStyle={{
-                    marginBottom: 30,
-                    marginHorizontal: 20,
-                }}
-                ListFooterComponent={() =>
-                    !isLoading ? <CustomCalendar /> : null
                 }
             />
             {isLoading && <EventsSkeleton />}

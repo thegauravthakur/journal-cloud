@@ -71,10 +71,14 @@ export function AdvancedEventFooter({
         });
 
     const onDeleteIconClick = async () => {
-        deleteLocalEventData({ currentDate, id });
-        navigation.goBack();
-        await deleteImage();
-        await deleteDocument();
+        if (id) {
+            deleteLocalEventData({ currentDate, id });
+            navigation.goBack();
+            await deleteImage();
+            await deleteDocument();
+        } else {
+            navigation.goBack();
+        }
     };
     return (
         <View
