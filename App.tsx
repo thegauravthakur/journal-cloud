@@ -6,6 +6,7 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import * as React from 'react';
 import { SetStateAction, useEffect, useState } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -61,6 +62,9 @@ export function App() {
         setLoading(false);
     }
 
+    useEffect(() => {
+        SplashScreen.hide();
+    }, []);
     useEffect(() => auth().onAuthStateChanged(onAuthStateChanged), []);
 
     if (loading) return null;

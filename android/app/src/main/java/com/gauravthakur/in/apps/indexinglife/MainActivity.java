@@ -1,12 +1,14 @@
-package com.journalfirebase;
+package com.gauravthakur.in.apps.indexinglife;
 
 import android.content.Intent;
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
+import org.devio.rn.splashscreen.SplashScreen; // here
 
 public class MainActivity extends ReactActivity {
   @Override
    protected void onCreate(Bundle savedInstanceState) {
+     SplashScreen.show(this, R.style.SplashScreenTheme, true);
      super.onCreate(null);
    }
    @Override
@@ -20,6 +22,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "JournalFirebase";
+    return "IndexingLife";
   }
 }

@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.journalfirebase",
+    package = "com.gauravthakur.in.apps.indexinglife",
 )
 
 android_resource(
     name = "res",
-    package = "com.journalfirebase",
+    package = "com.gauravthakur.in.apps.indexinglife",
     res = "src/main/res",
 )
 

@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:532046054426:android:8c2ce1b252055b28643da3",
+        "mobilesdk_app_id": "1:532046054426:android:49b39bfa3cff1c90643da3",
         "android_client_info": {
-          "package_name": "com.journalfirebase"
+          "package_name": "com.gauravthakur.in.apps.indexinglife"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "532046054426-lefi3220sm0bgirclea1mpvt069irg1q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gauravthakur.in.apps.indexinglife",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
         {
           "client_id": "532046054426-ql71ch7dnavmja3feollrainnjcm0ifr.apps.googleusercontent.com",
           "client_type": 3
