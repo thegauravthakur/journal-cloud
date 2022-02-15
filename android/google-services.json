@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "906325484215",
+    "project_id": "indexing-life",
+    "storage_bucket": "indexing-life.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906325484215:android:535d02970922e7416e2332",
+        "android_client_info": {
+          "package_name": "com.gauravthakur.in.apps.indexinglife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906325484215-5lk4j7kvgn385j4o5rqhuct4dm33pg2u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD05MWp9mQEd6Fdqf8sGMUSXAC6eKEO0_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906325484215-5lk4j7kvgn385j4o5rqhuct4dm33pg2u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
