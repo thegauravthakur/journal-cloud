@@ -7,6 +7,7 @@ import { Image, TouchableOpacity, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Ripple from 'react-native-material-ripple';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { StackParams } from '../../App';
@@ -24,6 +25,7 @@ export type Response = Record<string, EventType>;
 
 export function Timeline() {
     const [showProfileModal, setShowProfileModal] = useState(false);
+    const [showCalendarModal, setShowCalendarModal] = useState(false);
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
 
     useEffect(() => {
@@ -59,12 +61,14 @@ export function Timeline() {
                     <Ripple
                         rippleCentered
                         rippleContainerBorderRadius={100}
-                        style={{ padding: 10 }}
-                        onPress={() => {}}
+                        style={{ padding: 10, marginRight: 5 }}
+                        onPress={() => {
+                            setShowCalendarModal(true);
+                        }}
                     >
-                        <MaterialCommunityIcon
+                        <AntDesign
                             style={{ alignSelf: 'center' }}
-                            name={'magnify'}
+                            name={'calendar'}
                             size={27}
                         />
                     </Ripple>
@@ -81,7 +85,10 @@ export function Timeline() {
 
     return (
         <View style={{ marginLeft: 4, marginRight: 12 }}>
-            <Events />
+            <Events
+                showModal={showCalendarModal}
+                setShowModal={setShowCalendarModal}
+            />
             <ProfileOptionsModal
                 setShowProfileModal={setShowProfileModal}
                 showProfileModal={showProfileModal}

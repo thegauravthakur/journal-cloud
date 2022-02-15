@@ -32,6 +32,7 @@ export function CustomCalendar() {
     }
 
     convertedActiveDates[currentDate] = {
+        ...convertedActiveDates[currentDate],
         selected: true,
     };
 

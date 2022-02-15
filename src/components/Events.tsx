@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import * as React from 'react';
-import { useContext } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { FlatList, View } from 'react-native';
 import { useQuery } from 'react-query';
 
@@ -11,7 +11,11 @@ import { EventItem } from './EventItem';
 import { EventsSkeleton } from './EventsSkeleton';
 import { TimelineHeader } from './TimelineHeader';
 
-export function Events() {
+interface EventsProps {
+    showModal: boolean;
+    setShowModal: Dispatch<SetStateAction<boolean>>;
+}
+export function Events({ showModal, setShowModal }: EventsProps) {
     const { currentDate } = useContext(DateContext);
     const { currentUser } = auth();
 
@@ -44,6 +48,8 @@ export function Events() {
                 showsVerticalScrollIndicator={false}
                 ListHeaderComponent={() => (
                     <TimelineHeader
+                        showModal={showModal}
+                        setShowModal={setShowModal}
                         hasData={sortedKeys.length > 0}
                         isLoading={isLoading}
                     />

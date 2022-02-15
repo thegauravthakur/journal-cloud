@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { Text } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import Modal from 'react-native-modal';
@@ -13,10 +13,16 @@ import { TextInputField } from './TextInputField';
 interface TimelineHeaderProps {
     isLoading: boolean;
     hasData: boolean;
+    showModal: boolean;
+    setShowModal: Dispatch<SetStateAction<boolean>>;
 }
-export function TimelineHeader({ isLoading, hasData }: TimelineHeaderProps) {
+export function TimelineHeader({
+    isLoading,
+    hasData,
+    showModal,
+    setShowModal,
+}: TimelineHeaderProps) {
     const { currentDate } = useContext(DateContext);
-    const [showModal, setShowModal] = useState(false);
     return (
         <>
             <Ripple
@@ -53,10 +59,6 @@ export function TimelineHeader({ isLoading, hasData }: TimelineHeaderProps) {
                 isVisible={showModal}
                 onBackdropPress={() => setShowModal(false)}
                 onBackButtonPress={() => setShowModal(false)}
-                animationIn='zoomIn'
-                animationOut={'zoomOut'}
-                animationInTiming={200}
-                animationOutTiming={200}
             >
                 <CustomCalendar />
             </Modal>

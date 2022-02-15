@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { DateContext, queryClient, StackParams } from '../../App';
 import { AdvancedEventFooter } from '../components/AdvancedEventFooter';
 import { ChosenImages } from '../components/ChosenImages';
+import { QuickImagePicker } from '../components/QuickImagePicker';
 import { EventType, Response } from './Timeline';
 
 interface Params {
@@ -216,11 +217,14 @@ export function AdvancedEvent() {
                 />
                 {image && <ChosenImages setImage={setImage} images={image} />}
             </ScrollView>
-            <AdvancedEventFooter
-                hasImage={Boolean(storedImage)}
-                id={id}
-                setImage={setImage}
-            />
+            <View>
+                {!image && <QuickImagePicker setImage={setImage} />}
+                <AdvancedEventFooter
+                    hasImage={Boolean(storedImage)}
+                    id={id}
+                    setImage={setImage}
+                />
+            </View>
         </View>
     );
 }

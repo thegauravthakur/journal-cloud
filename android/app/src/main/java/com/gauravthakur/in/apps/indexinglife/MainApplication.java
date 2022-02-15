@@ -1,6 +1,7 @@
 package com.gauravthakur.in.apps.indexinglife;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;

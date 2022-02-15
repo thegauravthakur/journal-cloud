@@ -3,8 +3,16 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import TimeAgo from 'javascript-time-ago';
 import * as React from 'react';
 import { useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import ImageView from 'react-native-image-viewing';
+import {
+    CameraRoll,
+    Image,
+    Modal,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import ImageView from 'react-native-image-zoom-viewer';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { CustomTheme, StackParams } from '../../App';
 import { EventType } from '../views/Timeline';
@@ -77,14 +85,33 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
                 </TouchableOpacity>
             )}
             <Text style={{ fontSize: 14 }}>{timeAgo.format(createdAt)}</Text>
-            {image && (
+            <Modal
+                visible={showImageViewer}
+                onRequestClose={() => setShowImageViewer(false)}
+            >
                 <ImageView
-                    images={[{ uri: image }]}
-                    imageIndex={0}
-                    visible={showImageViewer}
-                    onRequestClose={() => setShowImageViewer(false)}
+                    imageUrls={[{ url: image! }]}
+                    enableSwipeDown
+                    onSwipeDown={() => setShowImageViewer(false)}
+                    renderHeader={() => (
+                        <TouchableOpacity
+                            style={{
+                                position: 'absolute',
+                                zIndex: 1000,
+                                right: 20,
+                                top: 20,
+                            }}
+                            onPress={() => CameraRoll.saveToCameraRoll(image!)}
+                        >
+                            <AntDesign
+                                name={'closecircle'}
+                                size={28}
+                                color={'white'}
+                            />
+                        </TouchableOpacity>
+                    )}
                 />
-            )}
+            </Modal>
         </EventItemWrapper>
     );
 }
