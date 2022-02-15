@@ -2,15 +2,16 @@ import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Ripple from 'react-native-material-ripple';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { StackParams } from '../../App';
 import { Events } from '../components/Events';
+import { ProfileOptionsModal } from '../components/ProfileOptionsModal';
 
 export interface EventType {
     createdAt: number;
@@ -22,6 +23,7 @@ export interface EventType {
 export type Response = Record<string, EventType>;
 
 export function Timeline() {
+    const [showProfileModal, setShowProfileModal] = useState(false);
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
 
     useEffect(() => {
@@ -53,17 +55,26 @@ export function Timeline() {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <TouchableOpacity onPress={() => auth().signOut()}>
-                    <Image
-                        source={{ uri: auth().currentUser?.photoURL ?? '' }}
-                        style={{ height: 32, width: 32, borderRadius: 100 }}
-                    />
-                </TouchableOpacity>
-            ),
-            headerLeft: () => (
-                <Ripple style={{ padding: 2 }} rippleCentered>
-                    <MaterialIcon name={'menu'} size={26} />
-                </Ripple>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Ripple
+                        rippleCentered
+                        rippleContainerBorderRadius={100}
+                        style={{ padding: 10 }}
+                        onPress={() => {}}
+                    >
+                        <MaterialCommunityIcon
+                            style={{ alignSelf: 'center' }}
+                            name={'magnify'}
+                            size={27}
+                        />
+                    </Ripple>
+                    <TouchableOpacity onPress={() => setShowProfileModal(true)}>
+                        <Image
+                            source={{ uri: auth().currentUser?.photoURL ?? '' }}
+                            style={{ height: 32, width: 32, borderRadius: 100 }}
+                        />
+                    </TouchableOpacity>
+                </View>
             ),
         });
     }, [navigation]);
@@ -71,6 +82,10 @@ export function Timeline() {
     return (
         <View style={{ marginLeft: 4, marginRight: 12 }}>
             <Events />
+            <ProfileOptionsModal
+                setShowProfileModal={setShowProfileModal}
+                showProfileModal={showProfileModal}
+            />
         </View>
     );
 }

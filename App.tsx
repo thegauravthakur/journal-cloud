@@ -6,6 +6,7 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import * as React from 'react';
 import { SetStateAction, useEffect, useState } from 'react';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { AdvancedEvent } from './src/views/AdvancedEvent';
@@ -85,7 +86,13 @@ export function App() {
                                     component={Timeline}
                                     options={{
                                         title: 'Indexing Life',
-                                        headerTitleAlign: 'center',
+                                        headerLeft: () => (
+                                            <FontAwesome5Icon
+                                                style={{ padding: 10 }}
+                                                name={'paint-brush'}
+                                                size={20}
+                                            />
+                                        ),
                                     }}
                                 />
                                 <Stack.Screen
