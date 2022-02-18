@@ -37,6 +37,7 @@ const theme = {
         card: 'white',
         eventTitle: '#B91C1C',
         eventDescription: '#374151',
+        text: 'black',
     },
 };
 
@@ -63,8 +64,9 @@ export function App() {
     }
 
     useEffect(() => {
-        SplashScreen.hide();
+        setTimeout(() => SplashScreen.hide(), 1000);
     }, []);
+
     useEffect(() => auth().onAuthStateChanged(onAuthStateChanged), []);
 
     if (loading) return null;

@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.gauravthakur.in.apps.indexinglife",
+    package = "in.gauravthakur.indexinglife",
 )
 
 android_resource(
     name = "res",
-    package = "com.gauravthakur.in.apps.indexinglife",
+    package = "in.gauravthakur.indexinglife",
     res = "src/main/res",
 )
 

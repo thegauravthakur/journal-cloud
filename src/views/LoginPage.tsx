@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 GoogleSignin.configure({
     webClientId:
-        '906325484215-5lk4j7kvgn385j4o5rqhuct4dm33pg2u.apps.googleusercontent.com',
+        '503442647803-jhu7nh931ssu08sprn7h5j3i5rrl4q70.apps.googleusercontent.com',
 });
 
 export function LoginPage() {

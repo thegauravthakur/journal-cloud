@@ -1,4 +1,4 @@
-package com.gauravthakur.in.apps.indexinglife;
+package in.gauravthakur.indexinglife;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
@@ -14,10 +14,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
 import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
-import androidx.multidex.MultiDexApplication; // <-- ADD THIS IMPORT
 
 
-public class MainApplication extends MultiDexApplication implements ReactApplication {
+public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
@@ -68,7 +67,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.gauravthakur.in.apps.indexinglife.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("in.gauravthakur.indexinglife.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

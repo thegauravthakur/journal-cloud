@@ -1,42 +1,41 @@
 {
   "project_info": {
-    "project_number": "532046054426",
-    "firebase_url": "https://realtime-chat-9465f.firebaseio.com",
-    "project_id": "realtime-chat-9465f",
-    "storage_bucket": "realtime-chat-9465f.appspot.com"
+    "project_number": "503442647803",
+    "project_id": "central-mission-313915",
+    "storage_bucket": "central-mission-313915.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:532046054426:android:49b39bfa3cff1c90643da3",
+        "mobilesdk_app_id": "1:503442647803:android:fc7f82a95289aaa86c9e5e",
         "android_client_info": {
-          "package_name": "com.gauravthakur.in.apps.indexinglife"
+          "package_name": "in.gauravthakur.indexinglife"
         }
       },
       "oauth_client": [
         {
-          "client_id": "532046054426-lefi3220sm0bgirclea1mpvt069irg1q.apps.googleusercontent.com",
+          "client_id": "503442647803-04467b12isdcdge79d0jlatd0sr2881o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.gauravthakur.in.apps.indexinglife",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+            "package_name": "in.gauravthakur.indexinglife",
+            "certificate_hash": "1f50a96bf5187d1a5ec4904f33bfd2d111f034e9"
           }
         },
         {
-          "client_id": "532046054426-ql71ch7dnavmja3feollrainnjcm0ifr.apps.googleusercontent.com",
+          "client_id": "503442647803-jhu7nh931ssu08sprn7h5j3i5rrl4q70.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLX2eHAH-XeUPgHxz26UCwWR6BqGp2Tg8"
+          "current_key": "AIzaSyCdxpY20DBudDc4_HZ8-097tgLy3rj1hbc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "532046054426-ql71ch7dnavmja3feollrainnjcm0ifr.apps.googleusercontent.com",
+              "client_id": "503442647803-jhu7nh931ssu08sprn7h5j3i5rrl4q70.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

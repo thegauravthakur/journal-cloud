@@ -1,8 +1,11 @@
-package com.gauravthakur.in.apps.indexinglife;
+package in.gauravthakur.indexinglife;
 
 import android.content.Intent;
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatDelegate;
+
 import org.devio.rn.splashscreen.SplashScreen; // here
 
 public class MainActivity extends ReactActivity {
@@ -10,7 +13,9 @@ public class MainActivity extends ReactActivity {
    protected void onCreate(Bundle savedInstanceState) {
      SplashScreen.show(this, R.style.SplashScreenTheme, true);
      super.onCreate(null);
+     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
    }
+
    @Override
    public void onNewIntent(Intent intent) {
      super.onNewIntent(intent);
@@ -22,6 +27,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "IndexingLife";
+    return "Indexing";
   }
 }

@@ -1,13 +1,16 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import * as React from 'react';
-import { useContext } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { Calendar } from 'react-native-calendars';
 import { useQuery } from 'react-query';
 
 import { DateContext } from '../../App';
 
-export function CustomCalendar() {
+interface CustomCalendarProps {
+    setShowModal: Dispatch<SetStateAction<boolean>>;
+}
+export function CustomCalendar({ setShowModal }: CustomCalendarProps) {
     const { currentDate, setCurrentDate } = useContext(DateContext);
     const convertedActiveDates: Record<string, Record<string, any>> = {};
     const { currentUser } = auth();
@@ -41,6 +44,7 @@ export function CustomCalendar() {
             markedDates={convertedActiveDates}
             onDayPress={(date) => {
                 setCurrentDate(date.dateString);
+                setShowModal(false);
             }}
             style={{ borderRadius: 5 }}
             current={currentDate}

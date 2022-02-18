@@ -1,10 +1,9 @@
 import { format } from 'date-fns';
 import * as React from 'react';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { Text } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import Modal from 'react-native-modal';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { DateContext } from '../../App';
 import { CustomCalendar } from './CustomCalendar';
@@ -45,7 +44,6 @@ export function TimelineHeader({
                 >
                     {format(new Date(currentDate), 'EEEE do, yyyy')}
                 </Text>
-                <AntDesign name={'calendar'} size={22} />
             </Ripple>
             <TextInputField isLoading={isLoading} />
             {!hasData && !isLoading && (
@@ -56,11 +54,13 @@ export function TimelineHeader({
                 </Text>
             )}
             <Modal
+                animationInTiming={1}
+                animationOutTiming={1}
                 isVisible={showModal}
                 onBackdropPress={() => setShowModal(false)}
                 onBackButtonPress={() => setShowModal(false)}
             >
-                <CustomCalendar />
+                <CustomCalendar setShowModal={setShowModal} />
             </Modal>
         </>
     );

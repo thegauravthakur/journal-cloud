@@ -8,7 +8,6 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Ripple from 'react-native-material-ripple';
 import ReceiveSharingIntent from 'react-native-receive-sharing-intent';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { StackParams } from '../../App';
 import { Events } from '../components/Events';
