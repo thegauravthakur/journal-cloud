@@ -6559,6 +6559,11 @@ react-native-screens@^3.11.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-share@^7.3.6:
+  version "7.3.6"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-7.3.6.tgz#cab3e4e485cecee662ae5dd8a757fc6ec7c5140a"
+  integrity sha512-oqwWS9/Tzvo0+3RXVNH1hXIthYvOicN/iJbVEv0YMIQLlsuIeoSQ4zh9Yre1APzRKoF8+En+G2XApQk7UaI5Kg==
+
 react-native-splash-screen@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz#3af71ed17afe50fee69590a45aec399d071ead02"
@@ -6590,6 +6595,11 @@ react-native-vector-icons@^9.0.0:
     lodash.template "^4.5.0"
     prop-types "^15.7.2"
     yargs "^16.1.1"
+
+react-native-view-shot@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz#8c8e84c67a4bc8b603e697dbbd59dbc9b4f84825"
+  integrity sha512-9u9fPtp6a52UMoZ/UCPrCjKZk8tnkI9To0Eh6yYnLKFEGkRZ7Chm6DqwDJbYJHeZrheCCopaD5oEOnRqhF4L2Q==
 
 react-native@0.67.2:
   version "0.67.2"

@@ -1,5 +1,7 @@
 package in.gauravthakur.indexinglife;
 
+import cl.json.ShareApplication;
+import cl.json.RNSharePackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import android.app.Application;
