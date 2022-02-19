@@ -1,6 +1,5 @@
 import { Theme, useNavigation, useTheme } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import TimeAgo from 'javascript-time-ago';
 import * as React from 'react';
 import { useState } from 'react';
 import {
@@ -16,6 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { CustomTheme, StackParams } from '../../App';
 import { EventType } from '../views/Timeline';
+import { EventItemFooter } from './EventItemFooter';
 import { EventItemWrapper } from './EventItemWrapper';
 
 interface EventItemProps {
@@ -28,7 +28,6 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
     const theme = useTheme() as Theme & { colors: CustomTheme };
     const { title, description, image, createdAt } = eventData;
     const [showImageViewer, setShowImageViewer] = useState(false);
-    const timeAgo = new TimeAgo('en-in');
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     const onEventItemClick = async () => {
         navigation.navigate('AdvancedEvent', { id, eventData });
@@ -40,7 +39,7 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
             showBorderLine={!isLastItem}
             onClick={onEventItemClick}
         >
-            <View style={{ marginBottom: 10 }}>
+            <View style={{}}>
                 {title.length > 0 && (
                     <Text
                         style={{
@@ -79,12 +78,12 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
                         style={{
                             height: 180,
                             borderRadius: 15,
-                            marginBottom: 10,
+                            marginTop: 10,
                         }}
                     />
                 </TouchableOpacity>
             )}
-            <Text style={{ fontSize: 14 }}>{timeAgo.format(createdAt)}</Text>
+            <EventItemFooter createdAt={createdAt} />
             <Modal
                 visible={showImageViewer}
                 onRequestClose={() => setShowImageViewer(false)}
