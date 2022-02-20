@@ -38,6 +38,7 @@ export function TextInputField({ isLoading }: TextInputFieldProps) {
                 description,
                 createdAt: Date.now(),
                 image: null,
+                isLoved: false,
             };
 
             queryClient.setQueryData(
@@ -107,6 +108,7 @@ export function TextInputField({ isLoading }: TextInputFieldProps) {
                                 eventData: {
                                     title,
                                     description,
+                                    isLoved: false,
                                     image: null,
                                     createdAt: Date.now(),
                                 },

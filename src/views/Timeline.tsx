@@ -15,6 +15,7 @@ import { ProfileOptionsModal } from '../components/ProfileOptionsModal';
 
 export interface EventType {
     createdAt: number;
+    isLoved: boolean;
     description: string;
     image: string | null;
     title: string;
@@ -42,6 +43,7 @@ export function Timeline() {
                     createdAt: Date.now(),
                     title: '',
                     description: '',
+                    isLoved: false,
                 };
                 navigation.navigate('AdvancedEvent', { eventData });
             },

@@ -28,7 +28,7 @@ interface EventItemProps {
 export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
     const containerRef = useRef(null);
     const theme = useTheme() as Theme & { colors: CustomTheme };
-    const { title, description, image, createdAt } = eventData;
+    const { title, description, image, createdAt, isLoved } = eventData;
     const [showImageViewer, setShowImageViewer] = useState(false);
     const navigation = useNavigation<NativeStackNavigationProp<StackParams>>();
     const onEventItemClick = async () => {
@@ -90,6 +90,9 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
                     </TouchableOpacity>
                 )}
                 <EventItemFooter
+                    id={id}
+                    eventData={eventData}
+                    isLoved={isLoved}
                     containerRef={containerRef}
                     createdAt={createdAt}
                 />

@@ -124,6 +124,7 @@ export function AdvancedEvent() {
             }
         } else {
             if (image) copy.image = await uploadNewImage(image, newId);
+            copy.isLoved = false;
             copy.createdAt = Date.now();
         }
         updateLocalEventData({
