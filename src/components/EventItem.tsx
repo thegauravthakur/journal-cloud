@@ -84,7 +84,7 @@ export function EventItem({ isLastItem, id, eventData }: EventItemProps) {
                             style={{
                                 height: 180,
                                 borderRadius: 15,
-                                marginTop: 10,
+                                marginVertical: 10,
                             }}
                         />
                     </TouchableOpacity>

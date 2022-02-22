@@ -52,7 +52,7 @@ export function EventItemFooter({
                 justifyContent: 'space-between',
             }}
         >
-            <Text style={{ fontSize: 14 }}>
+            <Text style={{ fontSize: 14, marginLeft: 10 }}>
                 {isToday(new Date(createdAt))
                     ? timeAgo.format(createdAt)
                     : format(new Date(createdAt), 'hh:mm aaa')}
